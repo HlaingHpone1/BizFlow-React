@@ -1,10 +1,10 @@
 import axios from "axios";
 import { userStore } from "../store/userStore";
 
-export const baseURL = import.meta.env.BASE_URL;
+export const baseURL = "http://localhost:8080";
 
 const api = axios.create({
-    baseURL: baseURL,
+    baseURL: import.meta.env.VITE_BASE_URL,
     headers: {
         ContentType: "application/json",
         "Cache-Control": "no-cache",
