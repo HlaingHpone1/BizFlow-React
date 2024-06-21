@@ -55,7 +55,6 @@ export const userStore = create<UserStore>()(
             }),
             {
                 name: "userStore",
-                getStorage: () => localStorage,
             }
         )
     )
