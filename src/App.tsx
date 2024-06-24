@@ -1,12 +1,27 @@
-import Router from './router/Router'
-import { alpha, createTheme, CssBaseline, ThemeOptions, ThemeProvider } from '@mui/material'
+import {
+  alpha,
+  createTheme,
+  CssBaseline,
+  ThemeProvider
+} from '@mui/material'
+
 import "@fontsource/roboto";
 import "@fontsource-variable/roboto-slab"
-import { TypographyOptions } from '@mui/material/styles/createTypography';
 
-interface CustomThemeOptions extends ThemeOptions {
-  typography?: TypographyOptions;
-}
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
+
+import Router from './router/Router'
+import AlertBox from './components/alertBox/AlertBox';
+
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 1000 * 60 * 2, // Data is fresh for 2 minutes
+      refetchIntervalInBackground: true,
+    }
+  }
+});
 
 const App: React.FC = () => {
 
@@ -29,13 +44,17 @@ const App: React.FC = () => {
         'Arial',
       ].join(','),
     }
-  } as CustomThemeOptions)
+  })
 
   return (
     <>
       <ThemeProvider theme={theme}>
-        <CssBaseline />
-        <Router />
+        <QueryClientProvider client={queryClient}>
+          <CssBaseline />
+          <Router />
+          <AlertBox />
+          <ReactQueryDevtools />
+        </QueryClientProvider>
       </ThemeProvider>
     </>
   )

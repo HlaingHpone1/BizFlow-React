@@ -14,7 +14,7 @@ const api = axios.create({
 });
 
 const isOngoingMaintenance = (status: number) => {
-    if (status === 404 || status === 400) {
+    if (status === 404) {
         window.location.href = "/notfound";
     } else if (status === 401) {
         window.location.href = "/login";

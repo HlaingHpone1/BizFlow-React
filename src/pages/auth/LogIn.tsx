@@ -12,9 +12,6 @@ import {
   Typography
 } from "@mui/material";
 
-import CustomContainer from "../../components/CustomContainer";
-import { images } from "../../utils/image";
-
 import {
   Email,
   VpnKey,
@@ -27,29 +24,47 @@ import {
 
 
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useFormik } from 'formik';
+
+import { login } from "../../api/auth";
+import { images } from "../../utils/image";
+import { userStore } from "../../store/userStore";
+import { alertStore } from "../../store/alertStore";
 import { LoginValidationSchema } from "../../validation/Auth/LoginValidationSchema";
 
+import CustomContainer from "../../layouts/CustomContainer";
+
 interface LoginValues {
-  email: string;
+  mail: string;
   password: string;
 }
 
 const LogIn = () => {
-  const [showPassword, setShowPassword] = useState(false);
+  const navigate = useNavigate();
 
-  const handleClickShowPassword = () => setShowPassword((show) => !show);
+  const { setAlert } = alertStore();
+  const { setUserData, setLogInUser } = userStore();
+
+  const [showPassword, setShowPassword] = useState(false);
 
   const { handleBlur, handleChange, handleSubmit, touched, errors } = useFormik<LoginValues>({
     initialValues: {
-      email: "",
+      mail: "",
       password: "",
     },
     validationSchema: LoginValidationSchema,
     onSubmit: (values) => {
-      console.log("submit", values);
-
+      login(values).then((response) => {
+        if (response.data.meta.code == 200) {
+          setAlert(true, response.data.message, "success");
+          setLogInUser(true);
+          setUserData(response.data.data);
+          navigate("/");
+        }
+      }).catch((e: any) => {
+        setAlert(true, e?.response?.data.message, "error");
+      })
     }
   })
 
@@ -128,7 +143,7 @@ const LogIn = () => {
                   <FormControl fullWidth sx={{ m: "8px 0px" }} >
                     <TextField
                       label="Email *"
-                      name="email"
+                      name="mail"
                       InputProps={{
                         startAdornment: (
                           <InputAdornment position="start">
@@ -138,8 +153,8 @@ const LogIn = () => {
                       }}
                       onChange={handleChange}
                       onBlur={handleBlur}
-                      error={touched.email && Boolean(errors.email)}
-                      helperText={touched.email && errors.email}
+                      error={touched.mail && Boolean(errors.mail)}
+                      helperText={touched.mail && errors.mail}
                     />
                   </FormControl>
 
@@ -152,8 +167,8 @@ const LogIn = () => {
 
                       onChange={handleChange}
                       onBlur={handleBlur}
-                      error={touched.email && Boolean(errors.email)}
-                      helperText={touched.email && errors.email}
+                      error={touched.password && Boolean(errors.password)}
+                      helperText={touched.password && errors.password}
 
                       InputProps={{
                         startAdornment: (
@@ -165,7 +180,7 @@ const LogIn = () => {
                           <InputAdornment position="end">
                             <IconButton
                               aria-label="toggle password visibility"
-                              onClick={handleClickShowPassword}
+                              onClick={() => setShowPassword(!showPassword)}
                             >
                               {showPassword ? <VisibilityOff /> : <Visibility />}
                             </IconButton>

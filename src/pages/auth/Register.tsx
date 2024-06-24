@@ -12,9 +12,6 @@ import {
   Typography
 } from "@mui/material";
 
-import CustomContainer from "../../components/CustomContainer";
-import { images } from "../../utils/image";
-
 import {
   Person,
   Email,
@@ -28,19 +25,27 @@ import {
 
 
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useFormik } from 'formik';
-import { RegisterValidationSchema } from "../../validation/Auth/RegisterValidationSchema";
+
 import { register } from "../../api/auth";
+import { alertStore } from "../../store/alertStore";
+import { images } from "../../utils/image";
+import { RegisterValidationSchema } from "../../validation/Auth/RegisterValidationSchema";
+
+import CustomContainer from "../../layouts/CustomContainer";
 
 interface registerValue {
   userName: string;
-  email: string;
+  mail: string;
   password: string;
   confirmPassword: string;
 }
 
 const Register = () => {
+  const navigate = useNavigate();
+  const { setAlert } = alertStore();
+
   const [showPassword, setShowPassword] = useState({
     password: false,
     confirmPassword: false,
@@ -50,21 +55,23 @@ const Register = () => {
   const { handleBlur, handleChange, handleSubmit, touched, errors } = useFormik<registerValue>({
     initialValues: {
       userName: "",
-      email: "",
+      mail: "",
       password: "",
       confirmPassword: "",
     },
     validationSchema: RegisterValidationSchema,
     onSubmit: (values) => {
-      console.log("submit", values);
       register(values).then((response) => {
-        console.log(response);
-        // if(response.data.code){
-
-        // }
+        if (response.data.meta.code === 201) {
+          setAlert(true, response.data.message, "success")
+          navigate("/login");
+        }
+      }).catch((e: any) => {
+        setAlert(true, e.response.data.message, "error");
       })
     }
   })
+
 
   return (
     <>
@@ -171,7 +178,7 @@ const Register = () => {
                   <FormControl fullWidth sx={{ m: "8px 0px" }} >
                     <TextField
                       label="Email *"
-                      name="email"
+                      name="mail"
                       InputProps={{
                         startAdornment: (
                           <InputAdornment position="start">
@@ -181,8 +188,8 @@ const Register = () => {
                       }}
                       onChange={handleChange}
                       onBlur={handleBlur}
-                      error={touched.email && Boolean(errors.email)}
-                      helperText={touched.email && errors.email}
+                      error={touched.mail && Boolean(errors.mail)}
+                      helperText={touched.mail && errors.mail}
                     />
                   </FormControl>
 

@@ -36,7 +36,8 @@ const Router = () => {
       ]
     },
     {
-      path: "/notfound",
+      name: "Not Found",
+      path: "*",
       element: NotFound
     },
   ];
@@ -57,10 +58,8 @@ const Router = () => {
                     ))
                   }
                 </Route>
-
               ))
             }
-            <Route path='*' element={<Navigate to="/notfound" replace />} />
           </Routes>
 
         ) : (
