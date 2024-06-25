@@ -6,6 +6,7 @@ import NotFound from '../pages/auth/NotFound';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import Home from '../pages/Home';
 import Network from '../pages/Network';
+import HomeLayout from '../layouts/HomeLayout';
 
 
 const Router = () => {
@@ -26,13 +27,43 @@ const Router = () => {
   const routeList = [
     {
       path: "/",
-      element: Home,
+      element: HomeLayout,
       children: [
         {
-          path: "network",
+          path: "/",
+          element: Home,
+          role: ["Admin", "User",]
+        },
+        {
+          path: "/network",
           element: Network,
           role: ["Admin", "User",]
-        }
+        },
+        {
+          path: "/message",
+          element: Network,
+          role: ["Admin", "User",]
+        },
+        {
+          path: "/notification",
+          element: Network,
+          role: ["Admin", "User",]
+        },
+        {
+          path: "/job",
+          element: Network,
+          role: ["Admin", "User",]
+        },
+        {
+          path: "/profile",
+          element: Network,
+          role: ["Admin", "User",]
+        },
+        {
+          path: "/settings",
+          element: Network,
+          role: ["Admin", "User",]
+        },
       ]
     },
     {
@@ -51,9 +82,9 @@ const Router = () => {
               routeList.map((route, i) => (
                 <Route key={i} path={route.path} element={<route.element />} >
                   {
-                    route.children?.map((subRoute, i) => (
+                    route.children?.map((subRoute, j) => (
                       userData && subRoute.role.includes(userData.role) ? (
-                        <Route key={i} path={subRoute?.path} element={<subRoute.element />} />
+                        <Route key={j} path={subRoute?.path} element={<subRoute.element />} />
                       ) : null
                     ))
                   }
