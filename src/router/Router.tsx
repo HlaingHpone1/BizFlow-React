@@ -6,7 +6,7 @@ import NotFound from '../pages/auth/NotFound';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import Home from '../pages/Home';
 import Network from '../pages/Network';
-import HomeLayout from '../layouts/HomeLayout';
+import MainLayout from '../layouts/MainLayout';
 
 
 const Router = () => {
@@ -27,7 +27,7 @@ const Router = () => {
   const routeList = [
     {
       path: "/",
-      element: HomeLayout,
+      element: MainLayout,
       children: [
         {
           path: "/",
