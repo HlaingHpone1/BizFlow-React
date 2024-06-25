@@ -8,7 +8,7 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import { Outlet } from 'react-router-dom';
 import Footer from './Footer';
 
-const HomeLayout = () => {
+const MainLayout = () => {
   const theme = createTheme({
     palette: {
       primary: {
@@ -44,4 +44,4 @@ const HomeLayout = () => {
   )
 }
 
-export default HomeLayout
+export default MainLayout
