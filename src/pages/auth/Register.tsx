@@ -37,7 +37,7 @@ import CustomContainer from "../../layouts/CustomContainer";
 
 interface registerValue {
   userName: string;
-  mail: string;
+  email: string;
   password: string;
   confirmPassword: string;
 }
@@ -55,7 +55,7 @@ const Register = () => {
   const { handleBlur, handleChange, handleSubmit, touched, errors } = useFormik<registerValue>({
     initialValues: {
       userName: "",
-      mail: "",
+      email: "",
       password: "",
       confirmPassword: "",
     },
@@ -161,6 +161,8 @@ const Register = () => {
                     <TextField
                       label="User Name *"
                       name="userName"
+                      placeholder="Enter your User Name"
+
                       InputProps={{
                         startAdornment: (
                           <InputAdornment position="start">
@@ -178,7 +180,9 @@ const Register = () => {
                   <FormControl fullWidth sx={{ m: "8px 0px" }} >
                     <TextField
                       label="Email *"
-                      name="mail"
+                      name="email"
+                      placeholder="Enter your Email"
+
                       InputProps={{
                         startAdornment: (
                           <InputAdornment position="start">
@@ -188,8 +192,8 @@ const Register = () => {
                       }}
                       onChange={handleChange}
                       onBlur={handleBlur}
-                      error={touched.mail && Boolean(errors.mail)}
-                      helperText={touched.mail && errors.mail}
+                      error={touched.email && Boolean(errors.email)}
+                      helperText={touched.email && errors.email}
                     />
                   </FormControl>
 
@@ -199,6 +203,7 @@ const Register = () => {
                       name="password"
                       label="Password *"
                       type={showPassword.password ? 'text' : 'password'}
+                      placeholder="Enter your Password"
 
                       onChange={handleChange}
                       onBlur={handleBlur}
@@ -234,6 +239,7 @@ const Register = () => {
                       name="confirmPassword"
                       label="Confirm Password *"
                       type={showPassword.confirmPassword ? 'text' : 'password'}
+                      placeholder="Enter your Confirm Password"
 
                       onChange={handleChange}
                       onBlur={handleBlur}
