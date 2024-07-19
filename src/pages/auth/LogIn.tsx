@@ -23,7 +23,6 @@ import {
 } from '@mui/icons-material';
 
 
-import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useFormik } from 'formik';
 
@@ -34,9 +33,10 @@ import { alertStore } from "../../store/alertStore";
 import { LoginValidationSchema } from "../../validation/Auth/LoginValidationSchema";
 
 import CustomContainer from "../../layouts/CustomContainer";
+import { useState } from "react";
 
 interface LoginValues {
-  mail: string;
+  email: string;
   password: string;
 }
 
@@ -46,11 +46,12 @@ const LogIn = () => {
   const { setAlert } = alertStore();
   const { setUserData, setLogInUser } = userStore();
 
+  const [show, setShow] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
   const { handleBlur, handleChange, handleSubmit, touched, errors } = useFormik<LoginValues>({
     initialValues: {
-      mail: "",
+      email: "",
       password: "",
     },
     validationSchema: LoginValidationSchema,
@@ -63,6 +64,9 @@ const LogIn = () => {
           navigate("/");
         }
       }).catch((e: any) => {
+        if (e?.response?.data?.meta?.code == 401) {
+          setShow(true);
+        }
         setAlert(true, e?.response?.data.message, "error");
       })
     }
@@ -143,7 +147,9 @@ const LogIn = () => {
                   <FormControl fullWidth sx={{ m: "8px 0px" }} >
                     <TextField
                       label="Email *"
-                      name="mail"
+                      name="email"
+                      placeholder="Enter your Email"
+
                       InputProps={{
                         startAdornment: (
                           <InputAdornment position="start">
@@ -153,8 +159,8 @@ const LogIn = () => {
                       }}
                       onChange={handleChange}
                       onBlur={handleBlur}
-                      error={touched.mail && Boolean(errors.mail)}
-                      helperText={touched.mail && errors.mail}
+                      error={touched.email && Boolean(errors.email)}
+                      helperText={touched.email && errors.email}
                     />
                   </FormControl>
 
@@ -164,6 +170,7 @@ const LogIn = () => {
                       name="password"
                       label="Password *"
                       type={showPassword ? 'text' : 'password'}
+                      placeholder="Enter your Password"
 
                       onChange={handleChange}
                       onBlur={handleBlur}
@@ -201,13 +208,21 @@ const LogIn = () => {
                   >Submit</Button>
                 </form>
 
-                <Typography
-                  component="p"
-                  variant="body1"
-                  align="right"
-                >
-                  Forgot Password?
-                </Typography>
+                {
+                  show && (
+                    <Typography
+                      component="p"
+                      variant="body1"
+                      align="right"
+                      color="error"
+                      fontWeight="600"
+                    >
+                      <Link to="/forgot-password">
+                        Forgot Password?
+                      </Link>
+                    </Typography>
+                  )
+                }
 
                 <Divider sx={{
                   marginBottom: "10px",

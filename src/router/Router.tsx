@@ -7,6 +7,7 @@ import { Navigate, Route, Routes } from 'react-router-dom';
 import Home from '../pages/Home';
 import Network from '../pages/Network';
 import MainLayout from '../layouts/MainLayout';
+import ForgotPasswordWithOTP from '../pages/auth/ForgotPasswordWithOTP';
 
 
 const Router = () => {
@@ -21,6 +22,10 @@ const Router = () => {
       path: "/register",
       element: Register
     },
+    {
+      path: "/forgot-password",
+      element: ForgotPasswordWithOTP,
+    }
 
   ];
 

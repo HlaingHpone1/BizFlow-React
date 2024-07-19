@@ -3,27 +3,9 @@ import { devtools, persist } from "zustand/middleware";
 
 interface UserData {
     id: string;
-    firstName: string;
-    lastName: string;
     userName: string;
     mail: string;
-    phoneNumber: string;
-    address: string;
-    bannerImg: string;
-    profileImg: string;
-    bio: string;
-
-    followers: number;
-    followings: number;
-    friends: number;
-    posts: number;
-
     role: string;
-    subscription: string;
-    dob: Date;
-    createdDate: Date;
-    updatedDate: Date;
-    gender: string;
 }
 
 interface UserStore {

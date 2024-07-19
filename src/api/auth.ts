@@ -22,6 +22,10 @@ export const restPasswordWithPassword = async (data: {}) => {
     return await api.put(`${baseURL}/${auth}/reset-password`, data);
 };
 
+export const verifyOTPCode = async (data: {}) => {
+    return await api.post(`${baseURL}/${auth}/verify-otp`, data);
+};
+
 export const resetPasswordWithOTP = async (data: {}) => {
-    return await api.post(`${baseURL}/${auth}/reset-password-otp`, data);
+    return await api.put(`${baseURL}/${auth}/reset-password-otp`, data);
 };
