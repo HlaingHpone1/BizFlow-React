@@ -8,7 +8,7 @@ import {
   InputBase,
   Drawer,
   List,
-  Container,
+  useMediaQuery,
 } from '@mui/material';
 
 import {
@@ -19,13 +19,13 @@ import {
 
 
 import { images } from "../utils/image"
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import NavbarItems from '../components/navbar/NavbarItems';
 import SideBarDrawer from '../components/navbar/SideBarDrawer';
 import AccountDropDown from '../components/navbar/AccountDropDown';
-
-
+import { useTheme } from '@mui/material/styles';
+import ContainerWraper from './ContainerWraper';
 export interface OpenStates {
   Account: boolean;
   System: boolean;
@@ -83,6 +83,14 @@ const Navbar = () => {
   });
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const theme = useTheme();
+  const matches = useMediaQuery(theme.breakpoints.up('sm'));
+
+  useEffect(() => {
+    if (matches) {
+      setOpen(false);
+    }
+  }, [matches]);
 
   const handleClick = (key: keyof OpenStates) => {
     setOpenStates({
@@ -93,8 +101,8 @@ const Navbar = () => {
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static" >
-        <Container maxWidth="lg" >
+      <AppBar position='static' sx={{ backgroundColor: 'primary.main' }}>
+        <ContainerWraper >
           <Toolbar sx={{
             minHeight: {
               xs: "85px"
@@ -156,9 +164,8 @@ const Navbar = () => {
             <Drawer open={open} anchor={'right'} onClose={() => setOpen(false)}>
               <SideBarDrawer setOpen={setOpen} openStates={openStates} handleClick={handleClick} />
             </Drawer>
-
           </Toolbar>
-        </Container>
+        </ContainerWraper>
       </AppBar>
       <AccountDropDown anchorEl={anchorEl} setAnchorEl={setAnchorEl} openStates={openStates} handleClick={handleClick} />
     </Box>

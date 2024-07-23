@@ -8,6 +8,13 @@ import Home from '../pages/Home';
 import Network from '../pages/Network';
 import MainLayout from '../layouts/MainLayout';
 import ForgotPasswordWithOTP from '../pages/auth/ForgotPasswordWithOTP';
+import Settings from '../pages/Settings';
+import Support from '../pages/Support';
+import Security from '../pages/Security';
+import Theme from '../pages/Theme';
+import SettingLayout from '../layouts/SettingLayout';
+import ResetPasswordWithOldPassword from '../pages/auth/ResetPasswordWithOldPassword';
+import PersonalInfo from '../pages/PersonalInfo';
 
 
 const Router = () => {
@@ -26,7 +33,6 @@ const Router = () => {
       path: "/forgot-password",
       element: ForgotPasswordWithOTP,
     }
-
   ];
 
   const routeList = [
@@ -66,8 +72,40 @@ const Router = () => {
         },
         {
           path: "/settings",
-          element: Network,
-          role: ["Admin", "User",]
+          element: SettingLayout,
+          role: ["Admin", "User",],
+          children: [
+            {
+              path: "/settings",
+              element: Settings,
+              role: ["Admin", "User",]
+            },
+            {
+              path: "/settings/personal-info",
+              element: PersonalInfo,
+              role: ["Admin", "User",]
+            },
+            {
+              path: "/settings/theme",
+              element: Theme,
+              role: ["Admin", "User",]
+            },
+            {
+              path: "/settings/security",
+              element: Security,
+              role: ["Admin", "User",]
+            },
+            {
+              path: "/settings/security/change-password",
+              element: ResetPasswordWithOldPassword,
+              role: ["Admin", "User",]
+            },
+            {
+              path: "/settings/support",
+              element: Support,
+              role: ["Admin", "User",]
+            },
+          ]
         },
       ]
     },
@@ -89,7 +127,15 @@ const Router = () => {
                   {
                     route.children?.map((subRoute, j) => (
                       userData && subRoute.role.includes(userData.role) ? (
-                        <Route key={j} path={subRoute?.path} element={<subRoute.element />} />
+                        <Route key={j} path={subRoute?.path} element={<subRoute.element />} >
+                          {
+                            subRoute.children?.map((childRoute, k) => (
+                              userData && childRoute.role.includes(userData.role) ? (
+                                <Route key={k} path={childRoute?.path} element={<childRoute.element />} />
+                              ) : null
+                            ))
+                          }
+                        </Route>
                       ) : null
                     ))
                   }

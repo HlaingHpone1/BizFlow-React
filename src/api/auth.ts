@@ -18,7 +18,7 @@ export const otpCode = async (data: {}) => {
     return await api.post(`${baseURL}/${auth}/newOTP`, data);
 };
 
-export const restPasswordWithPassword = async (data: {}) => {
+export const restPasswordWithOldPassword = async (data: {}) => {
     return await api.put(`${baseURL}/${auth}/reset-password`, data);
 };
 

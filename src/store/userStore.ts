@@ -4,7 +4,7 @@ import { devtools, persist } from "zustand/middleware";
 interface UserData {
     id: string;
     userName: string;
-    mail: string;
+    email: string;
     role: string;
 }
 
@@ -24,8 +24,7 @@ export const userStore = create<UserStore>()(
                 logInUser: false,
                 userData: null,
 
-                setLogInUser: (logInUser: boolean) =>
-                    set({ logInUser: logInUser }),
+                setLogInUser: (logInUser: boolean) => set({ logInUser: logInUser }),
                 setUserData: (data: UserData) => set({ userData: data }),
                 logOut: () => {
                     set(() => ({

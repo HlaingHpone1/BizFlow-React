@@ -54,7 +54,7 @@ const DynamicMenuList = ({ openStates, handleClick }: DynamicMenuListProps) => {
           id: 8,
           title: "Setting",
           icon: Settings,
-          link: "/setting"
+          link: "/settings"
         },
       ]
     },

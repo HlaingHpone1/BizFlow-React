@@ -1,9 +1,10 @@
 import { Container } from '@mui/material'
 import { images } from '../utils/image'
+import { CSSProperties, ReactNode } from 'react'
 
 type childrenProps = {
-  children: any
-  sx?: any
+  children: ReactNode;
+  sx?: CSSProperties;
 }
 
 const CustomContainer: React.FC<childrenProps> = ({ children, sx }) => {
